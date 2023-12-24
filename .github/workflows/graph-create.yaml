@@ -38,11 +38,12 @@ jobs:
         run: |
           cd ./data
           mkdir -p "$RUNNER_TEMP"
-          test -f ./queue/data.tar.gz && tar -xzf ./queue/data.tar.gz -C "$RUNNER_TEMP"
+          test -f ./queues/locations.tar.gz && tar -xzf ./queues/locations.tar.gz -C "$RUNNER_TEMP"
+          test -f ./queues/countries.tar.gz && tar -xzf ./queues/countries.tar.gz -C "$RUNNER_TEMP"
           ../code/apps/graph-create-geonames/dist/cli.js create \
             --resource-dir ./resources \
-            --queue-dir "$RUNNER_TEMP/queues" \
-            --endpoint-url "https://api.colonialcollections.nl/datasets/data-hub-testing/knowledge-graph/services/kg/sparql" \
+            --queue-dir "$RUNNER_TEMP" \
+            --endpoint-url "https://api.colonialcollections.nl/datasets/data-hub/knowledge-graph/services/kg/sparql" \
             --locations-iterate-query-file ./queries/iterate-locations.rq \
             --countries-iterate-query-file ./queries/iterate-countries.rq \
             --triplydb-instance-url "${{ vars.TRIPLYDB_INSTANCE_URL }}" \
@@ -56,8 +57,9 @@ jobs:
       - name: Save changes
         run: |
           cd ./data
-          mkdir -p ./queue
-          test -f "$RUNNER_TEMP/data.sqlite" && tar -czf ./queue/data.tar.gz -C "$RUNNER_TEMP" data.sqlite
+          mkdir -p ./queues
+          test -f "$RUNNER_TEMP/locations.sqlite" && tar -czf ./queues/locations.tar.gz -C "$RUNNER_TEMP" locations.sqlite
+          test -f "$RUNNER_TEMP/countries.sqlite" && tar -czf ./queues/countries.tar.gz -C "$RUNNER_TEMP" countries.sqlite
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
