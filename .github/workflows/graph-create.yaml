@@ -40,11 +40,10 @@ jobs:
         run: |
           cd ./data
           mkdir -p "$RUNNER_TEMP"
-          test -f ./queues/locations.tar.gz && tar -xzf ./queues/locations.tar.gz -C "$RUNNER_TEMP"
-          test -f ./queues/countries.tar.gz && tar -xzf ./queues/countries.tar.gz -C "$RUNNER_TEMP"
+          test -f ./data/data.tar.gz && tar -xzf ./data/data.tar.gz -C "$RUNNER_TEMP"
           ../code/apps/graph-create-geonames/dist/cli.js create \
             --resource-dir ./resources \
-            --queue-dir "$RUNNER_TEMP" \
+            --data-file "$RUNNER_TEMP/data.sqlite" \
             --endpoint-url "https://api.colonialcollections.nl/datasets/data-hub/knowledge-graph/services/kg/sparql" \
             --locations-iterate-query-file ./queries/iterate-locations.rq \
             --countries-iterate-query-file ./queries/iterate-countries.rq \
@@ -59,9 +58,8 @@ jobs:
       - name: Save changes
         run: |
           cd ./data
-          mkdir -p ./queues
-          test -f "$RUNNER_TEMP/locations.sqlite" && tar -czf ./queues/locations.tar.gz -C "$RUNNER_TEMP" locations.sqlite
-          test -f "$RUNNER_TEMP/countries.sqlite" && tar -czf ./queues/countries.tar.gz -C "$RUNNER_TEMP" countries.sqlite
+          mkdir -p ./data
+          test -f "$RUNNER_TEMP/data.sqlite" && tar -czf ./data/data.tar.gz -C "$RUNNER_TEMP" data.sqlite
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
