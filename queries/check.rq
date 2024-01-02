@@ -11,8 +11,8 @@ WHERE {
   }
   ?dataset schema:dateModified ?rawDateModified .
   BIND(xsd:dateTime(?rawDateModified) AS ?dateModified)
-  BIND("?_currentIdentifier"^^xsd:dateTime AS ?currentDateModified)
-  BIND(?dateModified > ?currentDateModified AS ?isChanged)
+  BIND("?_currentIdentifier"^^xsd:dateTime AS ?dateModifiedOfLastRun)
+  BIND(?dateModified > ?dateModifiedOfLastRun AS ?isChanged)
 }
 ORDER BY DESC(?isChanged) ?dateModified
 LIMIT 1
