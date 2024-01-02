@@ -14,5 +14,5 @@ WHERE {
   BIND("?_currentIdentifier"^^xsd:dateTime AS ?dateModifiedOfLastRun)
   BIND(?dateModified > ?dateModifiedOfLastRun AS ?isChanged)
 }
-ORDER BY DESC(?isChanged) ?dateModified
+ORDER BY DESC(?isChanged) DESC(?dateModified)
 LIMIT 1
