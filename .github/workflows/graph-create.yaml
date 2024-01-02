@@ -40,10 +40,11 @@ jobs:
           ../code/apps/graph-create-geonames/dist/cli.js create \
             --resource-dir ./resources \
             --data-file "$RUNNER_TEMP/data.sqlite" \
-            --endpoint-url "https://api.colonialcollections.nl/datasets/data-hub/knowledge-graph/services/kg/sparql" \
+            --check-endpoint-url "https://api.colonialcollections.nl/datasets/data-hub/knowledge-graph/services/kg/sparql" \
             --check-if-run-must-continue-query-file ./queries/check.rq \
-            --locations-iterate-query-file ./queries/iterate-locations.rq \
-            --countries-iterate-query-file ./queries/iterate-countries.rq \
+            --iterate-endpoint-url "https://api.colonialcollections.nl/datasets/data-hub/knowledge-graph/services/kg/sparql" \
+            --iterate-locations-query-file ./queries/iterate-locations.rq \
+            --iterate-countries-query-file ./queries/iterate-countries.rq \
             --triplydb-instance-url "${{ vars.TRIPLYDB_INSTANCE_URL }}" \
             --triplydb-api-token "${{ secrets.TRIPLYDB_API_TOKEN }}" \
             --triplydb-account "${{ vars.TRIPLYDB_ACCOUNT }}" \
