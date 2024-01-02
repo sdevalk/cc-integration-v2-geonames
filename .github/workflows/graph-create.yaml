@@ -2,13 +2,13 @@ name: Create graph
 
 # Run every 3 hours. Don't run it more often; otherwise you might hit
 # GeoNames' hourly and daily request limits - http://www.geonames.org/export/
-on:
-  schedule:
-    - cron: "0 */3 * * *"
-
 # on:
-#   push:
-#     branches: ["main"]
+#   schedule:
+#     - cron: "0 */3 * * *"
+
+on:
+  push:
+    branches: ["main"]
 
 # Run a single workflow at a time
 concurrency:
@@ -45,6 +45,7 @@ jobs:
             --resource-dir ./resources \
             --data-file "$RUNNER_TEMP/data.sqlite" \
             --endpoint-url "https://api.colonialcollections.nl/datasets/data-hub/knowledge-graph/services/kg/sparql" \
+            --check-if-run-must-continue-query-file ./queries/check.rq \
             --locations-iterate-query-file ./queries/iterate-locations.rq \
             --countries-iterate-query-file ./queries/iterate-countries.rq \
             --triplydb-instance-url "${{ vars.TRIPLYDB_INSTANCE_URL }}" \
